@@ -1,0 +1,48 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+ 
+.mosaicflow__column {
+  float:left;
+}
+.mosaicflow__item {
+  position:relative;
+}
+.mosaicflow__item img {
+  display:block;
+  width:100%;
+  max-width:500px;
+  height:auto;
+}
+.mosaicflow__item a {
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  margin:0;
+  padding:5px;
+  background:hsla(0,0%,0%,.5);
+  color:#fff;
+  opacity:0;
+}
+.mosaicflow__item:hover a {
+  opacity:1;
+}
