@@ -4,7 +4,8 @@ class Find < ActiveRecord::Base
 
     def getShopInfos(name = '', location = '')
       finds = parseXml (location)
-      if !name.blank? && finds[0].image_url.blank? then
+
+      if !name.blank? && !finds[0].image_url.blank? then
         if location.blank? then
             #位置情報未取得
             Search.create(name:name,image_url:finds[0].image_url)
