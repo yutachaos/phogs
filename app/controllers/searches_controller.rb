@@ -7,15 +7,31 @@ class SearchesController < ApplicationController
     end
 
     def get_location
-      respond_to do |format|
-        format.js
+      require 'geocoder'
+      @address = ''
+      lat = params[:lat]
+      lon = params[:lon]
+
+      if !lat.nil? && !lon.nil? then
+        Geocoder.configure(:language  => :ja)
+        formatted_point = lat.to_s + ',' + lon.to_s
+        @address = Geocoder.address(formatted_point)
+#        parseAddressData(@address)
+       end
     end
+    #TO DO
+    # private
+    # def parseAddressData (@address)
+    #     if !@address.nil? then
+    #       @address['address_components'].each do |address_component|
+    #         if address_component['type'].include?() then
+
+    #         end
+    #       end
+    #     end
+    # end
 
     def create
-        #name = search_params
-        #image_url =
-        #Search.create()
-        #redirect_to anction: finds :index
     end
 
     def destroy
@@ -41,5 +57,4 @@ class SearchesController < ApplicationController
       params.permit(:name)
     end
 
-  end
 end

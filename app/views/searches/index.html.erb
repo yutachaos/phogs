@@ -4,20 +4,16 @@
 <div class="contents row">
   <div class="container">
     <!-- 仮遷移-->
-    <%= form_tag('/result', method: :get) do %>
+    <%= form_tag('/result', method: :post) do %>
       <h1>
-        あなたの近くのお店お探しします。
+        あなたの近くのお店、お探しします。
       </h1>
       <br/>
       <label>name</label>
       <input placeholder="input your name" type="text" name="name">
-      <div>
-        <p class = "btn">現在位置取得</p>
-      <div>
-      <%= #link_t "Get Location",
-      #{:controller=>"home",  :action => 'get_location'},
-      #:remote=> true, id: "getLocation"
-      %>
+      <%= link_to "現在位置取得",{:controller=>"searches",  :action => 'get_location'},:remote=> true, id: "getLocation" ,class: "btn" %>
+      <div id ='geoLocation'></div>
+      <input type="hidden" value ="" name="location">
       <input type="submit" value="Search!!!!!">
     <% end %>
   </div>
