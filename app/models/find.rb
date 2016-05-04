@@ -46,7 +46,7 @@ class Find < ActiveRecord::Base
           # puts "name:" + shop['name']
           # puts "url:" + shop['urls']['pc']
           # puts "pic:" + shop['photo']['pc']['l']
-          
+
           find.shop_id = shop['id']
           find.name = shop['name']
           find.url = shop['urls']['pc']
@@ -54,7 +54,7 @@ class Find < ActiveRecord::Base
           finds << find
         end
       end
-      finds.shuffle
+      finds.shuffle!
       return finds
     end
 
