@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  root 'finds#index'
-  resources :finds, only: :index
-
+  root 'searches#index'
+  resources 'searches'
+  #get "searches#get_location"
+  get 'result', to: 'finds#result'
 end

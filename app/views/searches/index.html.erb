@@ -1,0 +1,33 @@
+
+<div id ='geoLocation'></div>
+
+<div class="contents row">
+  <div class="container">
+    <!-- 仮遷移-->
+    <%= form_tag('/result', method: :get) do %>
+      <h1>
+        あなたの近くのお店お探しします。
+      </h1>
+      <br/>
+      <label>name</label>
+      <input placeholder="input your name" type="text" name="name">
+      <div>
+        <p class = "btn">現在位置取得</p>
+      <div>
+      <%= #link_t "Get Location",
+      #{:controller=>"home",  :action => 'get_location'},
+      #:remote=> true, id: "getLocation"
+      %>
+      <input type="submit" value="Search!!!!!">
+    <% end %>
+  </div>
+</div>
+
+ <div class="contents row">
+  <% @searches.each do |search| %>
+    <%= render partial: "search", locals: { search: search } %>
+  <% end %>
+  <%=
+   # paginate(@search) 
+   %>
+  </div>

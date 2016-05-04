@@ -1,0 +1,5 @@
+<%= link_to 'render', '/result/', method: :get, remote: true %>
+<div class="mosaicflow" data-item-height-calculation="attribute">
+    <%= render @finds %>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
