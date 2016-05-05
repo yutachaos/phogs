@@ -9,7 +9,7 @@ class SearchesController < ApplicationController
       require 'geocoder'
       @formatted_address = ''
       @keywords_address    = ''
-      @get_status = '現在位置取得'
+      @get_status = '現在位置取得ボタン'
       lat = params[:lat]
       lon = params[:lon]
       if !lat.nil? && !lon.nil? then
@@ -26,26 +26,6 @@ class SearchesController < ApplicationController
           p "geo searched exception catch!"
         end
      end
-    end
-
-    #TO DO
-    private
-    def parseSearchedData (searched_data)
-      keywords_arr = []
-      if !searched_data[0].data.nil? then
-          @formatted_address = searched_data[0].data["formatted_address"]
-          searched_data[0].data['address_components'].each do |address_component|
-            types = address_component['types']
-            if    types.include?('administrative_area_level_1')\
-               || types.include?('ward')\
-               || types.include?('locality')\
-               #|| types.include?('sublocality_level_1')
-               then
-              keywords_arr << address_component['long_name']
-            end
-         end
-         @keywords_address = keywords_arr.join(',')
-      end
     end
 
     def create
@@ -72,6 +52,25 @@ class SearchesController < ApplicationController
     private
     def search_params
       params.permit(:name)
+    end
+    
+    def parseSearchedData (searched_data)
+      keywords_arr = []
+      if !searched_data[0].data.nil? then
+          @formatted_address = searched_data[0].data["formatted_address"]
+          searched_data[0].data['address_components'].each do |address_component|
+            types = address_component['types']
+            if    types.include?('administrative_area_level_1')\
+               || types.include?('ward')\
+               || types.include?('locality')\
+               #|| types.include?('sublocality_level_1')
+               then
+              keywords_arr << address_component['long_name']
+            end
+         end
+         keywords_arr.reverse!
+         @keywords_address = keywords_arr.join(',')
+      end
     end
 
 end

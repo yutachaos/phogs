@@ -6,7 +6,10 @@ class Find < ActiveRecord::Base
       location = locationStrChk (location)
       finds = parseXml (location)
       if !name.blank? && !full_location.blank? && !finds[0].image_url.nil? then
-        Search.create(name:name,image_url:finds[0].image_url,location:location,full_location:full_location)
+        exist_chk = Search.where(name:name,location:location,full_location:full_location).first_or_initialize
+        if exist_chk.blank? then
+          Search.create(name:name,image_url:finds[0].image_url,location:location,full_location:full_location)
+        end
       end
       return finds
     end
@@ -27,20 +30,17 @@ class Find < ActiveRecord::Base
       return location
     end
 
-    private
     def parseXml (location)
       require 'open-uri'
       require 'kconv'
       require 'active_support/core_ext/hash/conversions'
       require 'uri'
-
       keywords = createLocationStr(location)
       count = '28'
       order = [*1].sample.to_s
       url  = 'http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=' + @@api_key + keywords + '&count=' + count + '&order=' + order
 
       xml  = open(URI.escape(url)).read.toutf8
-
       hash = Hash.from_xml(xml)
       finds = []
       if !hash['results']['shop'].nil? then
@@ -57,7 +57,6 @@ class Find < ActiveRecord::Base
       return finds
     end
 
-    private
     def createLocationStr(locationStr)
       keywords = ''
       locations = locationStr.split(",")

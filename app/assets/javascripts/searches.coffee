@@ -36,7 +36,6 @@ $(document).ready( ->
             url: "/searches/get_location",
             data: 'lat=' + myPosition[0] + '&lon=' + myPosition[1]
         })
-    getCurrent()
     $("#getLocation").click( ->
         location = $("input[name=full_location]").val();
         if location is ''

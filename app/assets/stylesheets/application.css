@@ -50,4 +50,9 @@
 .caution {
   font-size: 3!important;
   float:none;
+  padding: 10px 0px 10px 0px;
+}
+
+.no_result {
+  margin: 15px;
 }
