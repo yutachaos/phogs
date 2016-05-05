@@ -1,35 +1,51 @@
 class SearchesController < ApplicationController
 
     def index
-       @search = Search.new
-       @searches = Search.all
-       #binding.pry
+       @searches = Search.all.page(params[:page]).per(5).order("created_at DESC")
+
     end
 
     def get_location
       require 'geocoder'
-      @address = ''
+      @formatted_address = '一回目'
+      @keywords_address    = ''
+      @get_status = '現在位置取得'
       lat = params[:lat]
       lon = params[:lon]
-
       if !lat.nil? && !lon.nil? then
-        Geocoder.configure(:language  => :ja)
-        formatted_point = lat.to_s + ',' + lon.to_s
-        @address = Geocoder.address(formatted_point)
-#        parseAddressData(@address)
-       end
+        begin
+          Geocoder.configure(:language  => :ja)
+          formatted_point = lat.to_s + ',' + lon.to_s
+          searched_data = Geocoder.search(formatted_point)
+          #searched_data = Geocoder.search("35.4619297,139.5490377")
+          parseSearchedData(searched_data)
+          @get_status = '現在位置取得完了'
+        rescue Exception => e
+          @get_status = @formatted_address
+          p e.message
+          p "geo searched exception catch!"
+        end
+     end
     end
-    #TO DO
-    # private
-    # def parseAddressData (@address)
-    #     if !@address.nil? then
-    #       @address['address_components'].each do |address_component|
-    #         if address_component['type'].include?() then
 
-    #         end
-    #       end
-    #     end
-    # end
+    #TO DO
+    private
+    def parseSearchedData (searched_data)
+      keywords_arr = []
+      if !searched_data[0].data.nil? then
+          @formatted_address = searched_data[0].data["formatted_address"]
+          searched_data[0].data['address_components'].each do |address_component|
+            types = address_component['types']
+            if    types.include?('administrative_area_level_1')\
+               || types.include?('ward')\
+               || types.include?('locality')\
+               || types.include?('sublocality_level_1') then
+              keywords_arr << address_component['long_name']
+            end
+         end
+         @keywords_address = keywords_arr.join(',')
+      end
+    end
 
     def create
     end

@@ -46,3 +46,8 @@
 .mosaicflow__item:hover a {
   opacity:1;
 }
+
+.caution {
+  font-size: 3!important;
+  float:none;
+}

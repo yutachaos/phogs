@@ -3,15 +3,21 @@
     <span><%= image_tag 'arrow_top.png' %></span>
     <ul class="more_list">
       <li>
-        <a href="/result" target="_blank">詳細</a>
+        <a href="/show/<%= search.id %>" target="_blank">詳細</a>
         <!-- TO BE CODED
         <a href="/finds/show/<%= search.id %>">詳細</a>
         -->
       </li>
     </ul>
   </div>
-  <span class="name">
-      <span>By</span><%= search.name %>
-    </a>
-  </span>
+  <div>
+    <span class="name">
+        <span>Place</span><%= search.location %>
+    </span>
+    <!--
+    <span class="name">
+        <span>By</span><%= search.name %>
+    </span>
+    -->
+  </div>
 </div>
