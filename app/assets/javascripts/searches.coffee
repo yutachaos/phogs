@@ -38,6 +38,10 @@ $(document).ready( ->
         })
     getCurrent()
     $("#getLocation").click( ->
-        getCurrent()
+        location = $("input[name=full_location]").val();
+        if location is ''
+          getCurrent()
+        else
+          false
     )
 )

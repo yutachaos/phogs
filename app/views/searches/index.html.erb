@@ -1,20 +1,19 @@
-<div id ='geoLocation'></div>
-
 <div class="contents row">
   <div class="container">
     <!-- 仮遷移-->
     <%= form_tag('/result', method: :post) do %>
       <h1>
-        近くのお店、探してみます。
+        近くのお店、探します。
       </h1>
       <br/>
+      <label>address</label>
+      <input id ="geoLocation" placeholder="get your address" type="text" readonly="readonly">
       <label>name</label>
       <input placeholder="input your name" type="text" name="name">
       <%= link_to "現在位置取得",{:controller=>"searches",  :action => 'get_location'},:remote=> true, id: "getLocation" ,class: "btn" %>
       <p class="caution">
       ＊現在位置取得機能はブラウザの位置取得を許可にしないと使えません。
       (デフォルト検索値は渋谷区道玄坂)
-      <div id ='geoLocation'></div>
       <input type="hidden" value ="" name="location">
       <input type="hidden" value ="" name="full_location">
       <input type="submit" value="Search!!!!!">

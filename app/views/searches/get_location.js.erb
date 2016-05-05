@@ -1,4 +1,5 @@
-$("#geoLocation").html("<%= @formatted_address %>");
+$("#geoLocation").val("<%= @formatted_address %>");
+/*$("#geoLocation").html("<%= @formatted_address %>");*/
 $("#getLocation").html("<%= @get_status %>");
 $("input[name=full_location]").val("<%= @formatted_address %>");
 $("input[name=location]").val("<%= @keywords_address %>");
