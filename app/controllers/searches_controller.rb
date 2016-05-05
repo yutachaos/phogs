@@ -53,7 +53,7 @@ class SearchesController < ApplicationController
     def search_params
       params.permit(:name)
     end
-    
+
     def parseSearchedData (searched_data)
       keywords_arr = []
       if !searched_data[0].data.nil? then
@@ -63,7 +63,7 @@ class SearchesController < ApplicationController
             if    types.include?('administrative_area_level_1')\
                || types.include?('ward')\
                || types.include?('locality')\
-               #|| types.include?('sublocality_level_1')
+               || types.include?('sublocality_level_1')
                then
               keywords_arr << address_component['long_name']
             end
