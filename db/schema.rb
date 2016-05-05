@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160504134127) do
+ActiveRecord::Schema.define(version: 20160505073039) do
 
   create_table "finds", force: :cascade do |t|
     t.string   "shop_id",    limit: 255
@@ -23,15 +23,12 @@ ActiveRecord::Schema.define(version: 20160504134127) do
   end
 
   create_table "searches", force: :cascade do |t|
-    t.string   "name",        limit: 255
-    t.string   "point",       limit: 255
-    t.string   "middle_area", limit: 255
-    t.string   "large_area",  limit: 255
-    t.string   "food_code",   limit: 255
+    t.string   "name",          limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "image_url",   limit: 255
-    t.string   "location",    limit: 255
+    t.string   "image_url",     limit: 255
+    t.string   "location",      limit: 255
+    t.string   "full_location", limit: 255
   end
 
 end
