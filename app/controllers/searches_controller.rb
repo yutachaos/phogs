@@ -1,8 +1,8 @@
 class SearchesController < ApplicationController
-
+    @title = 'phog'
     def index
        @searches = Search.all.page(params[:page]).per(5).order("created_at DESC")
-
+       @title = 'phog'
     end
 
     def get_location
@@ -39,7 +39,8 @@ class SearchesController < ApplicationController
             if    types.include?('administrative_area_level_1')\
                || types.include?('ward')\
                || types.include?('locality')\
-               || types.include?('sublocality_level_1') then
+               #|| types.include?('sublocality_level_1')
+               then
               keywords_arr << address_component['long_name']
             end
          end
@@ -51,16 +52,16 @@ class SearchesController < ApplicationController
     end
 
     def destroy
-      search = Search.find(params[:id])
+      search = Search.delete(params[:id])
       Search.destroy
     end
 
     def edit
-      @search = Search.find(params[:id])
+      @search = Search.save(params[:id])
     end
 
     def update
-      search = Search.find(params[:id])
+      search = Search.save(params[:id])
     end
 
     def show

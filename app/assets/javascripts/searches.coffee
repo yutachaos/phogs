@@ -4,19 +4,17 @@
 
 myPosition = []
  
-$(document).ready( ->
- 
+$(document).ready( -> 
     getCurrent = ->
       navigator.geolocation.getCurrentPosition(
         onSuccess,
         onError,
-            enableHighAccuracy: true,
+            enableHighAccuracy: false,
              timeout: 20000,
              maximumAge: 120000
       )
  
     onSuccess = (position) ->
-        console.log "SUCCESS!!!!!!"
         myPosition[0] = position.coords.latitude
         myPosition[1] = position.coords.longitude
         console.log myPosition[0]
@@ -24,7 +22,6 @@ $(document).ready( ->
         postData()
  
     onError = (err) ->
-        console.log "ERRRORRR"
         switch err.code
           when 0 then message = 'Unknown error: ' + err.message
           when 1 then message = 'You denied permission to retrieve a position.'
@@ -39,7 +36,7 @@ $(document).ready( ->
             url: "/searches/get_location",
             data: 'lat=' + myPosition[0] + '&lon=' + myPosition[1]
         })
- 
+    getCurrent()
     $("#getLocation").click( ->
         getCurrent()
     )

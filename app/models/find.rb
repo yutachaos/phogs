@@ -5,7 +5,7 @@ class Find < ActiveRecord::Base
     def getShopInfos(name = '', location = '',full_location = '')
       location = locationStrChk (location)
       finds = parseXml (location)
-      if !name.blank? && !full_location.blank? && !finds[0].image_url.blank? then
+      if !name.blank? && !full_location.blank? && !finds[0].image_url.nil? then
         Search.create(name:name,image_url:finds[0].image_url,location:location,full_location:full_location)
       end
       return finds

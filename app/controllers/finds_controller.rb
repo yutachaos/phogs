@@ -1,5 +1,5 @@
 class FindsController < ApplicationController
-
+  @title = 'Phogs'
   def index
      @finds = Find.new
      @finds = @finds.getShopInfos()
@@ -9,11 +9,13 @@ class FindsController < ApplicationController
   def result
      @finds = Find.new
      @finds = @finds.getShopInfos(find_params['name'],find_params['location'],find_params['full_location'])
+     @title = 'result'
   end
 
   def show
      @finds = Find.new
      @finds = @finds.getUserShopInfos(find_params['id'])
+     @title = 'show result'
   end
 
 

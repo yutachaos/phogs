@@ -1,4 +1,3 @@
-
 <div id ='geoLocation'></div>
 
 <div class="contents row">
@@ -26,6 +25,6 @@
  <div class="contents row">
   <% @searches.each do |search| %>
     <%= render partial: "search", locals: { search: search } %>
-  <% end %>
+<% end %>
   <%= paginate(@searches) %>
-  </div>
+</div>
