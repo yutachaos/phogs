@@ -7,7 +7,7 @@ class SearchesController < ApplicationController
 
     def get_location
       require 'geocoder'
-      @formatted_address = '一回目'
+      @formatted_address = ''
       @keywords_address    = ''
       @get_status = '現在位置取得'
       lat = params[:lat]
