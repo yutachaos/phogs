@@ -8,7 +8,7 @@ class FindsController < ApplicationController
 
   def result
      @finds = Find.new
-     @finds = @finds.getShopInfos(find_params['name'],find_params['location'],find_params['full_location'])
+     @finds = @finds.getShopInfos(find_params['name'],find_params['location'],find_params['full_location'],find_params['lat'],find_params['lon'])
      @title = 'result'
   end
 
@@ -21,6 +21,6 @@ class FindsController < ApplicationController
 
   private
   def find_params
-    params.permit(:id,:name,:location,:full_location)
+    params.permit(:id,:name,:location,:full_location,:lat,:lon)
   end
 end

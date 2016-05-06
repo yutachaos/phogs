@@ -1,21 +1,31 @@
 class SearchesController < ApplicationController
-    @title = 'phog'
+    @title = 'phogs'
     def index
-       @searches = Search.all.page(params[:page]).per(5).order("created_at DESC")
-       @title = 'phog'
+      @searches = Search.all.page(params[:page]).per(5).order("created_at DESC")
+      @title = 'phogs'
     end
 
+    def map
+      @searches = Search.all
+      @hash = Gmaps4rails.build_markers(@searches) do |search, marker|
+               marker.lat search.latitude
+               marker.lng search.longitude
+               marker.infowindow search.full_location
+               marker.json({title: search.location})
+      end
+      @title = 'phogs'
+    end
     def get_location
       require 'geocoder'
       @formatted_address = ''
       @keywords_address    = ''
       @get_status = '現在位置取得ボタン'
-      lat = params[:lat]
-      lon = params[:lon]
-      if !lat.nil? && !lon.nil? then
+      @lat = params[:lat]
+      @lon = params[:lon]
+      if !@lat.nil? && !@lon.nil? then
         begin
           Geocoder.configure(:language  => :ja)
-          formatted_point = lat.to_s + ',' + lon.to_s
+          formatted_point = @lat.to_s + ',' + @lon.to_s
           searched_data = Geocoder.search(formatted_point)
           #searched_data = Geocoder.search("35.4619297,139.5490377")
           parseSearchedData(searched_data)

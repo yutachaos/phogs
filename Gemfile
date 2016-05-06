@@ -54,6 +54,7 @@ gem 'rails_12factor'
 gem 'pg'
 
 gem 'geocoder'
+gem 'gmaps4rails'
 
 group :development, :test do
   gem 'pry-rails'

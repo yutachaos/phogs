@@ -3,7 +3,7 @@ class Find < ActiveRecord::Base
     @@recruit_api_key = 'key=be37f05056113d51'
     @@gnavi_api_key = 'keyid=51869db089685e458c0de567e10bf5cc'
 
-    def getShopInfos(name = '', location = '',full_location = '')
+    def getShopInfos(name = '', location = '',full_location = '',lat = '',lon = '')
       location = locationStrChk (location)
       finds = parseXml (location)
       if #!name.blank? && \
@@ -11,7 +11,7 @@ class Find < ActiveRecord::Base
          && !finds[0].image_url.nil? then
         exist_chk = Search.where(name:name,location:location,full_location:full_location).first_or_initialize
         if !exist_chk.blank? then
-          Search.create(name:name,image_url:finds[0].image_url,location:location,full_location:full_location)
+          Search.create(name:name,image_url:finds[0].image_url,location:location,full_location:full_location,latitude:lat,longitude:lon)
         end
       end
       return finds
@@ -59,7 +59,11 @@ class Find < ActiveRecord::Base
           find.shop_id = shop['id']
           find.name = shop['name']
           find.url = shop['urls']['pc']
-          find.image_url = shop['photo']['pc']['l']
+          if !shop['photo']['pc']['l'].blank? then
+            find.image_url = shop['photo']['pc']['l']
+          else
+            next
+          end
           finds.push(find)
         end
       end

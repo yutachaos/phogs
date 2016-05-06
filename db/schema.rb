@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160505073039) do
+ActiveRecord::Schema.define(version: 20160506100105) do
 
   create_table "finds", force: :cascade do |t|
     t.string   "shop_id",    limit: 255
@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(version: 20160505073039) do
     t.string   "image_url",     limit: 255
     t.string   "location",      limit: 255
     t.string   "full_location", limit: 255
+    t.float    "latitude",      limit: 24
+    t.float    "longitude",     limit: 24
   end
 
 end
