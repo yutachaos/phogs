@@ -69,7 +69,7 @@ class SearchesController < ApplicationController
             end
          end
          keywords_arr.reverse!
-         @keywords_address = keywords_arr.join(',')
+         @keywords_address = keywords_arr.join('')
       end
     end
 

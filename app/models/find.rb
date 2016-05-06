@@ -1,11 +1,13 @@
 class Find < ActiveRecord::Base
     #APIの問い合わせ先とりあえずは固定で仮置き
-    @@api_key = 'be37f05056113d51'
+    @@api_key = 'key=be37f05056113d51'
 
     def getShopInfos(name = '', location = '',full_location = '')
       location = locationStrChk (location)
       finds = parseXml (location)
-      if !name.blank? && !full_location.blank? && !finds[0].image_url.nil? then
+      if #!name.blank? && \
+         !full_location.blank? \
+         && !finds[0].image_url.nil? then
         exist_chk = Search.where(name:name,location:location,full_location:full_location).first_or_initialize
         if !exist_chk.blank? then
           Search.create(name:name,image_url:finds[0].image_url,location:location,full_location:full_location)
@@ -35,10 +37,10 @@ class Find < ActiveRecord::Base
       require 'kconv'
       require 'active_support/core_ext/hash/conversions'
       require 'uri'
-      keywords = createLocationStr(location)
-      count = '28'
-      order = [*1].sample.to_s
-      url  = 'http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=' + @@api_key + keywords + '&count=' + count + '&order=' + order
+      keyword = '&keyword=' + location
+      count = '&count= 28'
+      order = '&order=' + [*1].sample.to_s
+      url  = 'http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?' + @@api_key + keyword +  count + order
 
       xml  = open(URI.escape(url)).read.toutf8
       hash = Hash.from_xml(xml)
@@ -57,6 +59,7 @@ class Find < ActiveRecord::Base
       return finds
     end
 
+    #AS IS method
     def createLocationStr(locationStr)
       keywords = ''
       locations = locationStr.split(",")

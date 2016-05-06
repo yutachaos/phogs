@@ -12,8 +12,9 @@
       <br/>
       <label>address</label>
       <input id ="geoLocation" placeholder="set your address" type="text" readonly="readonly">
+      <!-- omit name input
       <label>name</label>
-      <input placeholder="input your name" type="text" name="name">
+      <input placeholder="input your name" type="text" name="name">-->
       <%= link_to "現在位置取得ボタン",{:controller=>"searches",  :action => 'get_location'},:remote=> true, id: "getLocation" ,class: "btn" %>
       <p class="caution">
       ＊現在位置取得機能はブラウザの位置取得を許可にしないと使えません。
