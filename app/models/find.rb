@@ -1,6 +1,7 @@
 class Find < ActiveRecord::Base
     #APIの問い合わせ先とりあえずは固定で仮置き
-    @@api_key = 'key=be37f05056113d51'
+    @@recruit_api_key = 'key=be37f05056113d51'
+    @@gnavi_api_key = 'keyid=51869db089685e458c0de567e10bf5cc'
 
     def getShopInfos(name = '', location = '',full_location = '')
       location = locationStrChk (location)
@@ -24,23 +25,30 @@ class Find < ActiveRecord::Base
     end
 
     private
-    def
-    locationStrChk (location)
-      if location.blank? then
-        location = '東京都,渋谷区,道玄坂'
-      end
-      return location
+    def parseXml (location)
+      finds = []
+      begin
+        finds = getHotpepperAPIdata(location)
+        finds.push(getGnaviAPIdata(location))
+        finds.flatten!
+        finds.shuffle!
+      rescue Exception => e
+         finds = []
+         p e.message
+         p "API searched exception catch!"
+       end
+      return finds
     end
 
-    def parseXml (location)
+    def getHotpepperAPIdata(location)
       require 'open-uri'
       require 'kconv'
       require 'active_support/core_ext/hash/conversions'
       require 'uri'
       keyword = '&keyword=' + location
-      count = '&count= 28'
+      count = '&count=20'
       order = '&order=' + [*1].sample.to_s
-      url  = 'http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?' + @@api_key + keyword +  count + order
+      url  = 'http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?' + @@recruit_api_key + keyword +  count + order
 
       xml  = open(URI.escape(url)).read.toutf8
       hash = Hash.from_xml(xml)
@@ -52,20 +60,48 @@ class Find < ActiveRecord::Base
           find.name = shop['name']
           find.url = shop['urls']['pc']
           find.image_url = shop['photo']['pc']['l']
-          finds << find
+          finds.push(find)
         end
       end
-      finds.shuffle!
       return finds
     end
 
-    #AS IS method
-    def createLocationStr(locationStr)
-      keywords = ''
-      locations = locationStr.split(",")
-      locations.each do |location|
-        keywords += '&keyword=' + location
+    private
+    def getGnaviAPIdata(location)
+      require 'open-uri'
+      require 'kconv'
+      require 'active_support/core_ext/hash/conversions'
+      require 'uri'
+      address = '&address=' + location
+      hit_per_page = '&hit_per_page=20'
+      url  = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/?' + @@gnavi_api_key + address + hit_per_page
+      xml  = open(URI.escape(url)).read.toutf8
+      hash = Hash.from_xml(xml)
+      finds = []
+      if !hash['response']['rest'].nil? then
+        hash['response']['rest'].each do |rest|
+          find = Find.new
+          find.shop_id = rest['id']
+          find.name = rest['name']
+          find.url = rest['url']
+          find.image_url = 'No image'
+          if !rest['image_url']['shop_image1'].blank? then
+            find.image_url = rest['image_url']['shop_image1']
+          elsif !rest['image_url']['shop_image2'].blank?
+            find.image_url = rest['image_url']['shop_image2']
+          end
+          finds.push(find)
+        end
       end
-      return keywords
+      return finds
     end
+
+    def
+    locationStrChk (location)
+      if location.blank? then
+        location = '東京都渋谷区道玄坂'
+      end
+      return location
+    end
+
 end

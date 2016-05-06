@@ -43,4 +43,5 @@ $(document).ready( ->
         else
           false
     )
+    getCurrent()
 )
