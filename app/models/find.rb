@@ -73,7 +73,7 @@ class Find < ActiveRecord::Base
       require 'active_support/core_ext/hash/conversions'
       require 'uri'
       address = '&address=' + location
-      hit_per_page = '&hit_per_page=20'
+      hit_per_page = '&hit_per_page=50'
       url  = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/?' + @@gnavi_api_key + address + hit_per_page
       xml  = open(URI.escape(url)).read.toutf8
       hash = Hash.from_xml(xml)
@@ -84,11 +84,12 @@ class Find < ActiveRecord::Base
           find.shop_id = rest['id']
           find.name = rest['name']
           find.url = rest['url']
-          find.image_url = 'No image'
           if !rest['image_url']['shop_image1'].blank? then
             find.image_url = rest['image_url']['shop_image1']
           elsif !rest['image_url']['shop_image2'].blank?
             find.image_url = rest['image_url']['shop_image2']
+          else
+            next
           end
           finds.push(find)
         end
