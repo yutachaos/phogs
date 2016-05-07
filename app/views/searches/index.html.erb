@@ -1,36 +1,39 @@
-<div class="contents row">
-  <div class="container">
-    <!-- 仮遷移-->
-    <%= form_tag('/result', method: :post) do %>
-      <h1>
-        近くのお店、探します。
-      </h1>
-      <br/>
-      <p>
-      現在地を取得した後にSearchボタンを押すとあなたの近くのお店の画像を検索表示します。
-      </p>
-      <br/>
-      <label>address</label>
-      <input id ="geoLocation" placeholder="set your address" type="text" readonly="readonly">
-      <!-- omit name input
-      <label>name</label>
-      <input placeholder="input your name" type="text" name="name">-->
-      <%= link_to "現在位置取得ボタン",{:controller=>"searches",  :action => 'get_location'},:remote=> true, id: "getLocation" ,class: "btn" %>
-      <p class="caution">
-      ＊現在位置取得機能はブラウザの位置取得を許可にしないと使えません。
-      (未取得の場合は渋谷区道玄坂を検索)
-      <input type="hidden" value ="" name="location">
-      <input type="hidden" value ="" name="full_location">
-      <input type="hidden" value ="" name="lat">
-      <input type="hidden" value ="" name="lon">
-      <input type="submit" value="Search!!!!!">
-    <% end %>
+<div id="loading"><%= image_tag 'getting.gif' %></div>
+<div id="gray_out">
+  <div class="contents row">
+    <div class="container">
+      <!-- 仮遷移-->
+      <%= form_tag('/result', method: :post) do %>
+        <h1>
+          近くのお店、探します。
+        </h1>
+        <br/>
+        <p>
+        現在地を取得した後にSearchボタンを押すとあなたの近くのお店の画像を検索表示します。
+        </p>
+        <br/>
+        <label>address</label>
+        <input id ="geoLocation" placeholder="set your address" type="text" readonly="readonly">
+        <!-- omit name input
+        <label>name</label>
+        <input placeholder="input your name" type="text" name="name">-->
+        <%= link_to "現在位置取得",{:controller=>"searches",  :action => 'get_location'},:remote=> true, id: "getLocation" ,class: "btn" %>
+        <p class="caution">
+        ＊現在位置取得機能はブラウザの位置取得を許可にしないと使えません。
+        (未取得の場合は渋谷区道玄坂を検索)
+        <input type="hidden" value ="" name="location">
+        <input type="hidden" value ="" name="full_location">
+        <input type="hidden" value ="" name="lat">
+        <input type="hidden" value ="" name="lon">
+        <input type="submit" value="Search!!!!!">
+      <% end %>
+    </div>
   </div>
-</div>
 
- <div class="contents row">
-  <% @searches.each do |search| %>
-    <%= render partial: "search", locals: { search: search } %>
-<% end %>
-  <%= paginate(@searches) %>
+   <div class="contents row">
+    <% @searches.each do |search| %>
+      <%= render partial: "search", locals: { search: search } %>
+    <% end %>
+    <%= paginate(@searches) %>
+  </div>
 </div>

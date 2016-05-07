@@ -56,3 +56,21 @@
 .no_result {
   margin: 15px;
 }
+
+#loading{
+  opacity:0.85;
+  position:absolute;
+  left:43%;
+  top:30%;
+  width: 180px;
+  height: 140px;
+  display: none;
+  border:1px dashed #999;
+  position: fixed;
+  background-color:#FFF;
+  -moz-opacity:0.85;
+}
+
+#gray_out{
+
+}

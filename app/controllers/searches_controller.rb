@@ -19,7 +19,7 @@ class SearchesController < ApplicationController
       require 'geocoder'
       @formatted_address = ''
       @keywords_address    = ''
-      @get_status = '現在位置取得ボタン'
+      @get_status = '現在位置取得'
       @lat = params[:lat]
       @lon = params[:lon]
       if !@lat.nil? && !@lon.nil? then
@@ -31,6 +31,7 @@ class SearchesController < ApplicationController
           parseSearchedData(searched_data)
           @get_status = '現在位置取得完了'
         rescue Exception => e
+          @get_status = '現在位置取得失敗'
           @get_status = @formatted_address
           p e.message
           p "geo searched exception catch!"
