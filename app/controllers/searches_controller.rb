@@ -1,7 +1,7 @@
 class SearchesController < ApplicationController
     @title = 'phogs'
     def index
-      @searches = Search.all.page(params[:page]).per(5).order("created_at DESC")
+      @searches = Search.all.page(params[:page]).per(3).order("created_at DESC")
       @title = 'phogs'
     end
 
