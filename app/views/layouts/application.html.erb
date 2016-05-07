@@ -20,13 +20,18 @@
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(wf, s);
       })();
+      function topReload(){
+         document.location.href = '/';
+      }
+    </script>
+    <script type="text/javascript">
     </script>
   </head>
 
   <body>
   <header class="header">
     <div class="header__bar row">
-      <h1 class="header-url"><a href="/">Phog?</a></h1>
+      <h1 class="header-url" onclick="topReload()"><a href="/">Phog?</a></h1>
       <!--<h2 class="">back to TOP</h2>-->
       <!--<%= link_to 'render', '/result/', method: :get, remote: true %>-->
     </div>
