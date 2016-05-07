@@ -8,7 +8,7 @@ class Find < ActiveRecord::Base
       finds = parseXml (location)
       if #!name.blank? && \
          !full_location.blank? \
-         && !finds[0].image_url.blank? then
+         && !finds.blank? then
         exist_chk = Search.where(name:name,location:location,full_location:full_location).first_or_initialize
         if !exist_chk.blank? then
           Search.create(name:name,image_url:finds[0].image_url,location:location,full_location:full_location,latitude:lat,longitude:lon)
@@ -106,6 +106,7 @@ class Find < ActiveRecord::Base
       if location.blank? then
         location = '東京都渋谷区道玄坂'
       end
+      location = '千葉県習志野市鷺沼'
       return location
     end
 
