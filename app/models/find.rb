@@ -124,6 +124,7 @@ class Find < ActiveRecord::Base
     end
 
     def get_distance(lat1, lng1, lat2, lng2)
+      
       y1 = lat1.to_f * Math::PI / 180
       x1 = lng1.to_f * Math::PI / 180
       y2 = lat2.to_f * Math::PI / 180
