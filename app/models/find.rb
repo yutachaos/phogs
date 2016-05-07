@@ -1,7 +1,9 @@
 class Find < ActiveRecord::Base
     #APIの問い合わせ先とりあえずは固定で仮置き
-    @@recruit_api_key = 'key=be37f05056113d51'
-    @@gnavi_api_key = 'keyid=51869db089685e458c0de567e10bf5cc'
+    RECRUIT_API_KEY = 'key=be37f05056113d51'
+    RECRUIT_OFFER_TEXT = '画像提供：ホットペッパー グルメ'
+    GNAVI_API_KEY = 'keyid=51869db089685e458c0de567e10bf5cc'
+    GNAVI_OFFER_TEXT = '提供：ぐるなび'
 
     def getShopInfos(name = '', location = '',full_location = '',lat = '',lon = '')
       location = locationStrChk (location)
@@ -11,7 +13,7 @@ class Find < ActiveRecord::Base
          && !finds.blank? then
         exist_chk = Search.where(name:name,location:location,full_location:full_location).first_or_initialize
         if !exist_chk.blank? then
-          Search.create(name:name,image_url:finds[0].image_url,location:location,full_location:full_location,latitude:lat,longitude:lon)
+          Search.create(name:name,image_url:finds[0].image_url,service_remark:finds[0].service_remark,location:location,full_location:full_location,latitude:lat,longitude:lon)
         end
       end
       return finds
@@ -48,7 +50,7 @@ class Find < ActiveRecord::Base
       keyword = '&keyword=' + location
       count = '&count=20'
       order = '&order=' + [*1].sample.to_s
-      url  = 'http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?' + @@recruit_api_key + keyword +  count + order
+      url  = 'http://webservice.recruit.co.jp/hotpepper/gourmet/v1/?' + RECRUIT_API_KEY + keyword +  count + order
 
       xml  = open(URI.escape(url)).read.toutf8
       hash = Hash.from_xml(xml)
@@ -61,6 +63,7 @@ class Find < ActiveRecord::Base
           find.url = shop['urls']['pc']
           if !shop['photo']['pc']['l'].blank? then
             find.image_url = shop['photo']['pc']['l']
+            find.service_remark = RECRUIT_OFFER_TEXT
           else
             next
           end
@@ -78,7 +81,7 @@ class Find < ActiveRecord::Base
       require 'uri'
       address = '&address=' + location
       hit_per_page = '&hit_per_page=50'
-      url  = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/?' + @@gnavi_api_key + address + hit_per_page
+      url  = 'http://api.gnavi.co.jp/RestSearchAPI/20150630/?' + GNAVI_API_KEY + address + hit_per_page
       xml  = open(URI.escape(url)).read.toutf8
       hash = Hash.from_xml(xml)
       finds = []
@@ -95,6 +98,7 @@ class Find < ActiveRecord::Base
           else
             next
           end
+          find.service_remark = GNAVI_OFFER_TEXT
           finds.push(find)
         end
       end

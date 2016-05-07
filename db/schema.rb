@@ -11,26 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160506100105) do
+ActiveRecord::Schema.define(version: 20160507084122) do
 
   create_table "finds", force: :cascade do |t|
-    t.string   "shop_id",    limit: 255
-    t.string   "name",       limit: 255
-    t.string   "url",        limit: 255
-    t.string   "image_url",  limit: 255
+    t.string   "shop_id",        limit: 255
+    t.string   "name",           limit: 255
+    t.string   "url",            limit: 255
+    t.string   "image_url",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "service_remark", limit: 255
   end
 
   create_table "searches", force: :cascade do |t|
-    t.string   "name",          limit: 255
+    t.string   "name",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "image_url",     limit: 255
-    t.string   "location",      limit: 255
-    t.string   "full_location", limit: 255
-    t.float    "latitude",      limit: 24
-    t.float    "longitude",     limit: 24
+    t.string   "image_url",      limit: 255
+    t.string   "location",       limit: 255
+    t.string   "full_location",  limit: 255
+    t.float    "latitude",       limit: 24
+    t.float    "longitude",      limit: 24
+    t.string   "service_remark", limit: 255
   end
 
 end
