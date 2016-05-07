@@ -27,7 +27,6 @@ class SearchesController < ApplicationController
           Geocoder.configure(:language  => :ja)
           formatted_point = @lat.to_s + ',' + @lon.to_s
           searched_data = Geocoder.search(formatted_point)
-          #searched_data = Geocoder.search("35.4619297,139.5490377")
           parseSearchedData(searched_data)
           @get_status = '現在位置取得完了'
         rescue Exception => e
@@ -57,7 +56,6 @@ class SearchesController < ApplicationController
 
     def show
       @search = Search.find(params[:id])
-      #redirect_to anction: finds :index
     end
 
     private
@@ -76,7 +74,7 @@ class SearchesController < ApplicationController
                || types.include?('locality')\
                || types.include?('sublocality_level_1')
                then
-              keywords_arr << address_component['long_name']
+              keywords_arr.push(address_component['long_name'])
             end
          end
          keywords_arr.reverse!

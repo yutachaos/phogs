@@ -3,7 +3,6 @@ class FindsController < ApplicationController
   def index
      @finds = Find.new
      @finds = @finds.getShopInfos()
-     #binding.pry
   end
 
   def result

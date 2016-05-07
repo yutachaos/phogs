@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160507084122) do
+ActiveRecord::Schema.define(version: 20160507135626) do
 
   create_table "finds", force: :cascade do |t|
     t.string   "shop_id",        limit: 255
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20160507084122) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "service_remark", limit: 255
+    t.integer  "distance",       limit: 4
   end
 
   create_table "searches", force: :cascade do |t|

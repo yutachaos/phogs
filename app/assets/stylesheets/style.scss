@@ -366,7 +366,7 @@ form {
 }
 
 .itemContainer {
-  @include boxBase(20px 0 ,30px);
+  @include boxBase(10px,5px 15px 15px 15px);
   box-shadow: 0 0 10px rgba($black,0.2);
   background-color: $white;
   box-sizing: border-box;

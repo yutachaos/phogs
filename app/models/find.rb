@@ -1,4 +1,5 @@
 class Find < ActiveRecord::Base
+
     #APIの問い合わせ先とりあえずは固定で仮置き
     RECRUIT_API_KEY = 'key=be37f05056113d51'
     RECRUIT_OFFER_TEXT = '画像提供：ホットペッパー グルメ'
@@ -7,7 +8,8 @@ class Find < ActiveRecord::Base
 
     def getShopInfos(name = '', location = '',full_location = '',lat = '',lon = '')
       location = locationStrChk (location)
-      finds = parseXml (location)
+      finds = parseXml(location,lat,lon)
+
       if #!name.blank? && \
          !full_location.blank? \
          && !finds.blank? then
@@ -22,27 +24,27 @@ class Find < ActiveRecord::Base
     def getUserShopInfos(id)
       search = Search.find(id)
       location = locationStrChk (search.location)
-      finds = parseXml (location)
+      finds = parseXml(location,search.latitude,search.longitude)
       return finds
     end
 
     private
-    def parseXml (location)
+    def parseXml (location,lat,lon)
       finds = []
       begin
-        finds = getHotpepperAPIdata(location)
-        finds.push(getGnaviAPIdata(location))
+        finds = getHotpepperAPIdata(location,lat,lon)
+        finds.push(getGnaviAPIdata(location,lat,lon))
         finds.flatten!
         finds.shuffle!
       rescue Exception => e
-         finds = []
-         p e.message
-         p "API searched exception catch!"
-       end
+          finds = []
+          p e.message
+          p "API searched exception catch!"
+      end
       return finds
     end
 
-    def getHotpepperAPIdata(location)
+    def getHotpepperAPIdata(location,lat,lon)
       require 'open-uri'
       require 'kconv'
       require 'active_support/core_ext/hash/conversions'
@@ -61,6 +63,13 @@ class Find < ActiveRecord::Base
           find.shop_id = shop['id']
           find.name = shop['name']
           find.url = shop['urls']['pc']
+          find.distance = get_distance(lat, lon, shop['lat'], shop['lng'])
+          if !shop['photo']['pc']['l'].blank? then
+            find.image_url = shop['photo']['pc']['l']
+            find.service_remark = RECRUIT_OFFER_TEXT
+          else
+            next
+          end
           if !shop['photo']['pc']['l'].blank? then
             find.image_url = shop['photo']['pc']['l']
             find.service_remark = RECRUIT_OFFER_TEXT
@@ -74,7 +83,7 @@ class Find < ActiveRecord::Base
     end
 
     private
-    def getGnaviAPIdata(location)
+    def getGnaviAPIdata(location,lat,lon)
       require 'open-uri'
       require 'kconv'
       require 'active_support/core_ext/hash/conversions'
@@ -91,6 +100,7 @@ class Find < ActiveRecord::Base
           find.shop_id = rest['id']
           find.name = rest['name']
           find.url = rest['url']
+          find.distance = get_distance(lat, lon, rest['latitude'], rest['longitude'])
           if !rest['image_url']['shop_image1'].blank? then
             find.image_url = rest['image_url']['shop_image1']
           elsif !rest['image_url']['shop_image2'].blank?
@@ -111,6 +121,18 @@ class Find < ActiveRecord::Base
         location = '東京都渋谷区道玄坂'
       end
       return location
+    end
+
+    def get_distance(lat1, lng1, lat2, lng2)
+      y1 = lat1.to_f * Math::PI / 180
+      x1 = lng1.to_f * Math::PI / 180
+      y2 = lat2.to_f * Math::PI / 180
+      x2 = lng2.to_f * Math::PI / 180
+      earth_r = 6378140
+      deg = Math::sin(y1) * Math::sin(y2) + Math::cos(y1) * Math::cos(y2) * Math::cos(x2 - x1)
+      distance = earth_r * (Math::atan(-deg / Math::sqrt(-deg * deg + 1)) + Math::PI / 2)
+      distance = distance.round
+      return distance
     end
 
 end
