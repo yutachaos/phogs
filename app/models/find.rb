@@ -106,7 +106,6 @@ class Find < ActiveRecord::Base
       if location.blank? then
         location = '東京都渋谷区道玄坂'
       end
-      location = '千葉県習志野市鷺沼'
       return location
     end
 
