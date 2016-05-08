@@ -52,6 +52,8 @@ gem 'kaminari'
 
 gem 'rails_12factor'
 gem 'pg'
+#add for AWS 
+gem 'nokogiri', '~> 1.6', '>= 1.6.7.rc3'
 
 gem 'geocoder'
 gem 'gmaps4rails'
