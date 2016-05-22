@@ -32,6 +32,9 @@ class Find < ActiveRecord::Base
     def parseXml (location,lat,lon)
       finds = []
       begin
+        if location.empty? then
+          raise "location include 'Unnamed Road'! "
+        end
         finds = getHotpepperAPIdata(location,lat,lon)
         finds.push(getGnaviAPIdata(location,lat,lon))
         finds.flatten!
@@ -64,12 +67,6 @@ class Find < ActiveRecord::Base
           find.name = shop['name']
           find.url = shop['urls']['pc']
           find.distance = get_distance(lat, lon, shop['lat'], shop['lng'])
-          if !shop['photo']['pc']['l'].blank? then
-            find.image_url = shop['photo']['pc']['l']
-            find.service_remark = RECRUIT_OFFER_TEXT
-          else
-            next
-          end
           if !shop['photo']['pc']['l'].blank? then
             find.image_url = shop['photo']['pc']['l']
             find.service_remark = RECRUIT_OFFER_TEXT
@@ -119,12 +116,13 @@ class Find < ActiveRecord::Base
     locationStrChk (location)
       if location.blank? then
         location = '東京都渋谷区道玄坂'
+      elsif location.include?('Unnamed Road') then
+        location = ''
       end
       return location
     end
 
     def get_distance(lat1, lng1, lat2, lng2)
-      
       y1 = lat1.to_f * Math::PI / 180
       x1 = lng1.to_f * Math::PI / 180
       y2 = lat2.to_f * Math::PI / 180
