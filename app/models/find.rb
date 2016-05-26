@@ -1,9 +1,9 @@
 class Find < ActiveRecord::Base
 
     #APIの問い合わせ先とりあえずは固定で仮置き
-    RECRUIT_API_KEY = 'key=be37f05056113d51'
+    RECRUIT_API_KEY = 'key=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa️'
     RECRUIT_OFFER_TEXT = '画像提供：ホットペッパー グルメ'
-    GNAVI_API_KEY = 'keyid=51869db089685e458c0de567e10bf5cc'
+    GNAVI_API_KEY = 'keyid=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
     GNAVI_OFFER_TEXT = '提供：ぐるなび'
 
     def getShopInfos(name = '', location = '',full_location = '',lat = '',lon = '')
