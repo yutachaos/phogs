@@ -20,9 +20,7 @@
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(wf, s);
       })();
-      function topReload(){
-         document.location.href = '/';
-      }
+
     </script>
     <script type="text/javascript">
     </script>
@@ -31,7 +29,7 @@
   <body>
   <header class="header">
     <div class="header__bar row">
-      <h1 class="header-url" onclick="topReload()"><a href="/">Phog?</a></h1>
+      <h1 class="header-url" onclick="topReload()"><a href="/">TEENS BUSSINESS SCHOOL</a></h1>
       <!--<h2 class="">back to TOP</h2>-->
       <!--<%= link_to 'render', '/result/', method: :get, remote: true %>-->
     </div>
@@ -40,11 +38,6 @@
     <%= yield %>
 
     <footer>
-      <a href="http://www.gnavi.co.jp/">
-        <img src="http://apicache.gnavi.co.jp/image/rest/b/api_265_65.gif" width="265" height="65" border="0" alt="グルメ情報検索サイト　ぐるなび">
-      </a>
-      <a href="http://webservice.recruit.co.jp/"><img src="http://webservice.recruit.co.jp/banner/hotpepper-s.gif" alt="ホットペッパー Webサービス" width="135" height="17" border="0" title="ホットペッパー Webサービス"></a>
-      <h5>
         <!--Copyright Yuta Kimura 2016-->
       </h5>
     </footer>
