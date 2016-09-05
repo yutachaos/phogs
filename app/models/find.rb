@@ -73,7 +73,6 @@ class Find < ActiveRecord::Base
           else
             next
           end
-
           finds.push(find)
         end
       end
